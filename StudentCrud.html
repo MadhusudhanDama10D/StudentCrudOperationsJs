@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    
+    h3{
+      color: blue;
+    }
+    td {
+    display: table-cell;
+    vertical-align: inherit;
+    color: rgb(43, 122, 226);
+}
+
+    input[type='submit'], button, [aria-label]{
+      cursor: pointer;
+      color: rgb(17, 117, 175);
+    }
+    #spoiler{
+      display: none;
+    }
+   
+ 
+  </style>
+ 
+</head>
+<center>
+<body background="/home/decoders/Desktop/library.jpg">
+<form action="javascript:void(0);" method="POST" onsubmit="college.Add()"> 
+    <div class="row" id="name-section">
+        <label for="Name" class="text-light">
+            <h3>Name</h3>
+        </label>
+        <input type="text" id="add-name" placeholder="name" ><b></b>
+    </div>
+  
+  
+  <div class="row" id="sid-section">
+        <label for="Sid" class="number-light">
+            <h3>Sid</h3>
+        </label>
+        <input type="number" id="add-sid" placeholder="Sid"><b></b>
+    </div>
+   
+    <div class="row" id="Marks-section">
+        
+        <label for="marks" class="number-light">
+            <h3>Marks</h3>
+        </label>
+        <input type="marks" id="add-marks" placeholder="marks"><b></b>
+    </div>
+    <input type="submit" value="Add">
+    
+</form>
+
+<div id="spoiler" role="aria-hidden">
+  <form action="javascript:void(0);" method="POST" id="saveUpdate">
+    <input type="text" id="Update-name">
+    <input type="number" id="Update-sid">
+    <input type="number" id="Update-marks">
+    <input type="submit" value="Update" /> <a onclick="CloseInput()" aria-label="Close">&#10006;</a>
+  </form>
+</div>
+
+<p id="counter"></p>
+
+<table>
+  <tr>
+    <th><h3>Name</h3></th>
+    <th><h3>Sid</h3></th>
+
+
+    <th><h3>Marks</h3></th>
+  </tr>
+    <tbody id="students">
+    </tbody>
+</table>
+
+
+<script>
+var college = new function() {
+  this.s = document.getElementById('students');
+   this.students = ['madhu', 'madhusudhan', 'harsha', 'ram', 'bjbj', 'jgu', 'dyd', 'hcfyhf', 'iuyi'];
+   this.sid = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+   this.marks = ['50', '66', '34', '67', '55', '80', '90', '60', '80'];
+
+      var students = {name:"students", sid:"sid", marks:"marks"};
+
+     this.s=document.getElementById('students');
+  this.Count = function(data) {
+    var s   = document.getElementById('counter');
+    var name = 'student';
+    var sid = 'sid';
+    var marks= 'marks';
+    if (data) {
+      if (data > 1) {
+        name = 'students';
+        var sid = 'sid';
+        var marks= 'marks';
+      }
+      s.innerHTML = data + ' ' + name ;
+      s.innerHTML = data +' '+ sid;
+      s.innerHTML = data + ' '+ marks;
+    } else {
+      s.innerHTML = 'No ' + name;
+      s.innerHTML = 'No ' + sid;
+      s.innerHTML = 'No ' + marks;
+    }
+  };
+  
+  this.FetchAll = function() {
+    var data = '';
+    if (this.students.length > 0) {
+      for (i = 0; i < this.students.length; i++) {
+        data += '<tr>';
+        data += '<td>' + this.students[i]+ '</td>';
+        data += '<td>' + this.sid[i]+'</td>';
+        data += '<td>' +this.marks[i]+ '</td>';
+        data += '<td><button onclick="college.Update(' + students[i] + ')">Update</button></td>';
+        data += '<td><button onclick="college.Delete(' + students[i] + ')">Delete</button></td>';
+        data += '</tr>';
+      } 
+    }
+    this.Count(this.students.length);
+    return this.s.innerHTML = data;
+  };
+  this.Add = function () {
+    s = document.getElementById('add-name');
+    
+    var student = s.value;
+    if (student) {
+     
+      this.students.push(student.trim());
+      
+      s.value = this.students[item];
+     
+      this.FetchAll();
+    }
+  };
+  this.Update = function (item) { 
+    var s = document.getElementById('Update-name');
+    var s = document.getElementById('Update-sid');
+    var s = document.getElementById('Update-marks');
+   
+    s.value = this.students[item];
+    
+    document.getElementById('spoiler').style.display = 'block';
+    self = this;
+    document.getElementById('saveUpdate').onsubmit = function() {
+     
+      var student = s.value;
+      if (student) {
+      
+        self.students.splice(item, 1, student.trim());
+       
+        self.FetchAll();
+       
+        CloseInput();
+      }
+
+      
+      var marks=s.value;
+      var sid=s.value;
+      if (sid) {
+       
+        self.students.splice(item, 1, sid.trim());
+        
+        self.FetchAll();
+       
+        CloseInput();
+      }
+
+
+      if (marks) {
+        
+        self.students.splice(item, 1, marks.trim());
+       
+        self.FetchAll();
+        
+        CloseInput();
+      }
+    }
+  };
+  this.Delete = function (item) {
+   
+    this.students.splice(item, 1);
+    
+    this.FetchAll();
+  };
+  
+}
+college.FetchAll();
+function CloseInput() {
+  document.getElementById('spoiler').style.display = 'none';
+}
+</script>
+</body>
+</center>
+</html>
